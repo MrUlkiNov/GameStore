@@ -73,18 +73,20 @@ python manage.py runserver
 
 ---
 ## 📂 Структура проекта
-GameStore/
-|├── store/               # Основное приложение|
-|│   ├── migrations/      # Миграции БД|
-|│   ├── templates/       # HTML-шаблоны|
-|│   ├── models.py        # Модели (игры, корзина, пользователи)|
-|│   └── views.py         # Логика страниц|
-|├── game_store/          # Настройки проекта|
-|├── static/              # CSS, JS, изображения|
-|├── media/               # Обложки игр|
-|├── .gitignore           # Игнорируемые файлы|
-|└── requirements.txt     # Зависимости|
 
+```
+GameStore/
+├── store/               # Основное приложение
+│   ├── migrations/      # Миграции БД
+│   ├── templates/       # HTML-шаблоны
+│   ├── models.py        # Модели (игры, корзина, пользователи)
+│   └── views.py         # Логика страниц
+├── game_store/          # Настройки проекта
+├── static/              # CSS, JS, изображения
+├── media/               # Обложки игр
+├── .gitignore           # Игнорируемые файлы
+└── requirements.txt     # Зависимости
+```
 ---
 ## ⚙️ Конфигурация
 Настройки Crispy Forms
@@ -102,14 +104,14 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 ---
 
-##📸 Скриншоты интерфейса
+## 📸 Скриншоты интерфейса
 | Главная страница | Корзина | Избраное | Карточка | Оформление|
 |------------------|---------|----------|----------|-----------|
 | <img src="screenshots/Главная.png" width="400"> | <img src="screenshots/Корзина.png" width="400"> | <img src="screenshots/Избраное.png" width="400"> | <img src="screenshots/Карточка.png" width="400"> | <img src="screenshots/Оформление.png" width="400"> |
 
 ---
 
-##🔧 Возможные проблемы
+## 🔧 Возможные проблемы
 Ошибка активации venv в PowerShell
 ```bash
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
@@ -131,7 +133,7 @@ pip install django-crispy-forms==2.4
 📄 Лицензия
 Проект распространяется под лицензией MIT.
 ---
-
 Автор: MrUlkiNov
 📧 Email: sam.baybekov@mail.ru
 🔗 GitHub: MrUlkiNov
+---
