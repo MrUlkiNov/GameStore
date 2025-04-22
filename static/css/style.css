@@ -1,0 +1,160 @@
+/* Стили для страницы игры */
+.detail-placeholder {
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
+
+.game-meta {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.25rem;
+}
+
+
+.social-share .btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.system-requirements .badge {
+    font-size: 0.8rem;
+}
+/* Стили для карточек товаров */
+.card-img-top {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    object-position: top;
+}
+
+/* Заглушка для отсутствующих изображений */
+.no-image-placeholder {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
+/* Кнопки в шапке */
+.auth-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.btn-auth {
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 2px solid;
+    font-size: 16px;
+}
+
+/* Конкретные кнопки */
+.auth-buttons .btn-login {
+    background-color: transparent;
+    border-color: #007bff; /* Зелёный */
+    color: #007bff;
+}
+
+.auth-buttons .btn-login:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.auth-buttons .btn-register {
+    background-color: #007bff; /* Оранжевый */
+    border-color: #007bff;
+    color: white;
+}
+
+.auth-buttons .btn-register:hover {
+    background-color: #007bff;
+    transform: translateY(-2px);
+}
+
+.auth-buttons .btn-logout {
+    background-color: #007bff; /* Красный */
+    border-color: #007bff;
+    color: white;
+}
+/* Стиль для кнопки отправки формы */
+.auth-submit-btn {
+    width: 100%;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 50px;
+    border: none;
+    background-color: #007bff; /* Зеленый цвет */
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.auth-submit-btn:hover {
+    background-color: #007bff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.auth-submit-btn:active {
+    transform: translateY(0);
+}
+/* Общие стили для иконок в навбаре */
+.nav-icon-btn {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1.25rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+    padding: 0.25rem 0.5rem;
+}
+
+.nav-icon-btn:hover {
+    color: white;
+}
+
+/* Стили для бейджей с количеством */
+.nav-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #dc3545;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.65rem;
+    font-weight: bold;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 992px) {
+    .auth-buttons {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-icon-btn {
+        margin-right: 1rem !important;
+    }
+}

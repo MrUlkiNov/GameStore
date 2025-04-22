@@ -1,0 +1,53 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Корзина{% endblock %}
+
+{% block content %}
+    <h1>Ваша корзина</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Игра</th>
+                <th>Количество</th>
+                <th>Цена за шт.</th>
+                <th>Общая цена</th>
+                <th>Удалить</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart %}
+                <tr>
+                    <td>{{ item.game.title }}</td>
+                    <td>
+                        <form action="{% url 'store:cart_update' item.game.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="10">
+                            <input type="hidden" name="update" value="True">
+                            <button type="submit" class="btn btn-sm btn-info">Обновить</button>
+                        </form>
+                    </td>
+                    <td>{{ item.price }} ₽</td>
+                    <td>{{ item.total_price }} ₽</td>
+                    <td>
+                        <a href="{% url 'store:cart_remove' item.game.id %}" class="btn btn-danger">Удалить</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">Ваша корзина пуста</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">Итого:</td>
+                <td colspan="2">{{ cart.get_total_price }} ₽</td>
+            </tr>
+        </tfoot>
+    </table>
+    <p>
+        <a href="{% url 'store:game_list' %}" class="btn btn-secondary">Продолжить покупки</a>
+        <a href="{% url 'store:order_create' %}" class="btn btn-primary">Оформить заказ</a>
+    </p>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Заказ оформлен{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h1 class="card-title text-success mb-4">
+                        <i class="fas fa-check-circle"></i> Заказ успешно оформлен!
+                    </h1>
+                    
+                    <div class="order-info mb-4">
+                        <h3>Номер вашего заказа: <strong>#{{ order.id }}</strong></h3>
+                        <p class="text-muted">Дата заказа: {{ order.created|date:"d.m.Y H:i" }}</p>
+                    </div>
+                    
+                    <div class="order-summary bg-light p-4 mb-4">
+                        <h4 class="mb-3">Детали заказа:</h4>
+                        <ul class="list-unstyled">
+                            {% for item in order.items.all %}
+                            <li class="mb-2">
+                                {{ item.game.title }} - {{ item.quantity }} шт. × {{ item.price }} ₽
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <hr>
+                        <h5 class="text-end">Итого: {{ order.get_total_cost }} ₽</h5>
+                    </div>
+                    
+                    <div class="customer-info mb-4">
+                        <h4>Информация о покупателе:</h4>
+                        <p>Пользователь: {{ order.user.username }}</p>
+                        <p>Email: {{ order.user.email }}</p>
+                    </div>
+                    
+                    <div class="actions mt-5">
+                        <a href="{% url 'store:game_list' %}" class="btn btn-primary me-3">
+                            <i class="fas fa-arrow-left"></i> Вернуться в магазин
+                        </a>
+                        <a href="#" class="btn btn-outline-secondary">
+                            <i class="fas fa-print"></i> Распечатать заказ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

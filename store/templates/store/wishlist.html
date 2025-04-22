@@ -1,0 +1,51 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Мое избранное{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Мое избранное</h1>
+
+    {% if wishlist.games.all %}
+    <div class="row">
+        {% for game in wishlist.games.all %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card h-100">
+                <a href="{{ game.get_absolute_url }}">
+                    {% if game.image %}
+                    <img src="{{ game.image.url }}" class="card-img-top" alt="{{ game.title }}">
+                    {% else %}
+                    <div class="no-image-placeholder">
+                        <i class="fas fa-gamepad fa-3x"></i>
+                    </div>
+                    {% endif %}
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{{ game.get_absolute_url }}">{{ game.title }}</a>
+                    </h5>
+                    <p class="card-text">{{ game.developer.name }}</p>
+                </div>
+                <div class="card-footer bg-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-bold">{{ game.price }} ₽</span>
+                        <form action="{% url 'store:remove_from_wishlist' game.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        Ваш список избранного пуст. Добавьте игры, нажав на ♡ на страницах игр.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

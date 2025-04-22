@@ -1,0 +1,177 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}{{ game.title }}{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Основная информация об игре -->
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    {% if game.image %}
+                        <img src="{{ game.image.url }}" class="card-img-top" alt="{{ game.title }}">
+                    {% else %}
+                        <div class="no-image-placeholder detail-placeholder">
+                            <i class="fas fa-gamepad fa-5x"></i>
+                        </div>
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h1 class="card-title">{{ game.title }}</h1>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <span class="badge bg-primary">{{ game.developer.name }}</span>
+                                {% for genre in game.genres.all %}
+                                    <span class="badge bg-secondary ms-1">{{ genre.name }}</span>
+                                {% endfor %}
+                            </div>
+                            <h4 class="text-success mb-0">{{ game.price }} ₽</h4>
+                        </div>
+
+                        <div class="game-meta mb-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Дата выхода:</strong> {{ game.release_date|date:"d.m.Y" }}</p>
+                                    <p><strong>Издатель:</strong> {{ game.publisher }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Платформа:</strong> PC</p>
+                                    <p><strong>Статус:</strong>
+                                        <span class="badge {% if game.available %}bg-success{% else %}bg-danger{% endif %}">
+                                        {% if game.available %}Доступно{% else %}Нет в наличии{% endif %}
+                                    </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="game-description">
+                            <h3>Описание</h3>
+                            <p>{{ game.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Боковая панель с покупкой -->
+            <div class="col-md-4">
+                <div class="card sticky-top" style="top: 20px;">
+                    <div class="card-body">
+                        <h3 class="card-title">Приобрести игру</h3>
+
+                        {% if game.available %}
+                            <form action="{% url 'store:cart_add' game.id %}" method="post" class="mb-3">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="quantity" class="form-label">Количество:</label>
+                                    <input type="number" class="form-control" id="quantity"
+                                           name="quantity" value="1" min="1" max="10">
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-lg w-100">
+                                    <i class="fas fa-cart-plus"></i> В корзину
+                                </button>
+                            </form>
+                        {% else %}
+                            <div class="alert alert-warning">
+                                Игра временно недоступна для покупки
+                            </div>
+                        {% endif %}
+
+                        <div class="d-grid gap-2">
+                            {% if user.is_authenticated %}
+                                <form action="{% url 'store:add_to_wishlist' game.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-danger">
+                                        <i class="{% if game in wishlist.games.all %}fas{% else %}far{% endif %} fa-heart"></i>
+                                        {% if game in wishlist.games.all %}В избранном{% else %}В избранное{% endif %}
+                                    </button>
+                                </form>
+                            {% else %}
+                                <a href="{% url 'store:login' %}?next={{ request.path }}"
+                                   class="btn btn-outline-secondary">
+                                    <i class="far fa-heart"></i> В избранное
+                                </a>
+                            {% endif %}
+                            <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#shareModal">
+                                <i class="fas fa-share-alt"></i> Поделиться
+                            </button>
+                        </div>
+
+                        <hr>
+
+                        <div class="system-requirements">
+                            <h5>Системные требования:</h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    ОС
+                                    <span class="badge bg-light text-dark">Windows 10</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Процессор
+                                    <span class="badge bg-light text-dark">Intel Core i5</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Память
+                                    <span class="badge bg-light text-dark">8 GB RAM</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Видеокарта
+                                    <span class="badge bg-light text-dark">NVIDIA GTX 1060</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальные окна -->
+    <div class="modal fade" id="shareModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Поделиться игрой</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" value="{{ request.build_absolute_uri }}" id="shareUrl">
+                        <button class="btn btn-outline-secondary" onclick="copyShareUrl()">Копировать</button>
+                    </div>
+                    <div class="social-share d-flex justify-content-center gap-3">
+                        <a href="#" class="btn btn-primary"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="btn btn-info text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="btn btn-danger"><i class="fab fa-vk"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% for i in "123" %}
+        <div class="modal fade" id="screenshotModal{{ forloop.counter }}" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <img src="{{ game.image.url }}" class="img-fluid" alt="Скриншот {{ forloop.counter }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function copyShareUrl() {
+            const copyText = document.getElementById("shareUrl");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            alert("Ссылка скопирована в буфер обмена");
+        }
+    </script>
+{% endblock %}
