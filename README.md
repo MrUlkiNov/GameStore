@@ -36,7 +36,7 @@
 git clone https://github.com/MrUlkiNov/GameStore.git
 cd GameStore
 ```
-###2. Настройка виртуального окружения
+### 2. Настройка виртуального окружения
 ```bash
 python -m venv venv
 # Активация:
